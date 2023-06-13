@@ -2,7 +2,8 @@ import React from "react";
 import {ReactComponent as Bin} from "../assets/bin.svg";
 import {ReactComponent as Close} from "../assets/close.svg";
 import {useDispatch, useSelector} from "react-redux";
-import {cartActions} from "../store/cartSlice";
+import {cartActions, removeAllProductsFromCart, removeProductFromCart} from "../store/cartSlice";
+import IProduct from "../types/IProduct";
 
 interface Props {
     isNavCartVisible: any,
@@ -17,12 +18,12 @@ const NavbarCart: React.FC = () => {
         dispatch(cartActions.setShowCart(!cart.showCart));
     };
 
-    const removeAllProductsFromCart = () => {
-        dispatch(cartActions.removeAllProductsFromCart());
+    const onRemoveAllProductsFromCart = () => {
+        dispatch(removeAllProductsFromCart());
     };
 
-    const removeProductFromCart = (product) => {
-        dispatch(cartActions.removeProductFromCart(product))
+    const onRemoveProductFromCart = (product: IProduct) => {
+        dispatch(removeProductFromCart(product.id));
     };
 
     return (
@@ -37,7 +38,7 @@ const NavbarCart: React.FC = () => {
                         className="w-full flex items-center justify-between py-5 2xl:py-7 px-8 border-b border-gray-200">
                         <h3 className="text-xl font-medium text-slate-700">Shopping Cart</h3>
                         <button type="button" className="flex gap-4 items-center text-slate-400">
-                            {cart.products.length > 0 && <span onClick={() => removeAllProductsFromCart()} className="flex items-center gap-1 group">
+                            {cart.products.length > 0 && <span onClick={() => onRemoveAllProductsFromCart()} className="flex items-center gap-1 group">
                 <Bin className="w-4 h-4 2xl:w-5 2xl:h-5 fill-slate-400 group-hover:fill-slate-500"/>
                 <span className="group-hover:text-slate-500">Clear all</span>
               </span>}
@@ -54,7 +55,7 @@ const NavbarCart: React.FC = () => {
                                             className="absolute top-0 bottom-0 left-0 right-0 bg-black opacity-0 transition duration-500 group-hover:opacity-25"></div>
                                         <div
                                             className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] group-hover:opacity-100 opacity-0 w-[25px] h-[25px] bg-white flex rounded-full items-center justify-center cursor-pointer scale-0 group-hover:scale-100">
-                                            <Close onClick={() => removeProductFromCart(product)} className="w-4 h-4 fill-white text-white"/>
+                                            <Close onClick={() => onRemoveProductFromCart(product)} className="w-4 h-4 text-black"/>
                                         </div>
                                         <img src={product.image} alt="product alt title"
                                              className="bg-cover max-h-[70px]"/>

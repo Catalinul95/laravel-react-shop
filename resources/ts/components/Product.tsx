@@ -1,13 +1,25 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {cartActions,} from "../store/cartSlice";
+import {addProductToCart} from "../store/cartSlice";
 import {useDispatch} from "react-redux";
+
+interface IProduct {
+    title: string,
+    slug: string,
+    image: string;
+    description;
+    string;
+    price: number,
+    status: string,
+    created_at: string,
+    updated_at: string,
+}
 
 const Product:React.FC = ({id, title, slug, description, image, price, created_at, updated_at, categories})  => {
     const dispatch = useDispatch();
 
     const onAddProductToCart = () => {
-        dispatch(cartActions.addProductToCart({
+        dispatch(addProductToCart({
             id,
             title,
             slug,
@@ -17,7 +29,7 @@ const Product:React.FC = ({id, title, slug, description, image, price, created_a
             created_at,
             updated_at,
             categories
-        }));
+        } as IProduct));
     };
 
     return (

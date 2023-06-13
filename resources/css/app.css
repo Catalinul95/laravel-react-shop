@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@keyframes slideInAnimation {
+    from {
+        right: -100%;
+    }
+
+    to {
+        right: 0;
+    }
+}
+
+@keyframes slideOutAnimation {
+    from {
+        right: 0;
+    }
+
+    to {
+        right: -100%;
+    }
+}
+
+.notification.slide-in-animation {
+    right: 0;
+    animation-name: slideInAnimation;
+    animation-duration: 500ms;
+    animation-timing-function: ease;
+}
+
+.notification.slide-out-animation {
+    right: -100%;
+}

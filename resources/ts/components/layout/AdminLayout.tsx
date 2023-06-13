@@ -6,6 +6,7 @@ import {ReactComponent as ArrowDown} from '../../assets/arrow-down.svg';
 import NavbarDropdown from "../admin/NavbarDropdown";
 
 import navigation, {Navigation} from "../../navigation";
+import Notifications from "../Notifications";
 
 const AdminLayout: React.FC = () => {
   const [isNavToggled, setIsNavToggled] = useState<boolean>(true);
@@ -16,7 +17,7 @@ const AdminLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-100 antialiased flex tracking-wide">
+    <div className="relative min-h-screen w-full bg-gray-100 antialiased flex tracking-wide">
       <div
         className={`w-[300px] fixed z-[3] ${isNavToggled ? ' left-0 md:w-[300px]' : 'md:w-[90px] left-[-300px]'} md:left-0 transition-all h-screen border-r border-gray-200 bg-white shadow-[6px_70px_30px_0px_rgba(0,0,0,0.1)]`}>
         <div
@@ -83,7 +84,7 @@ const AdminLayout: React.FC = () => {
           <Outlet/>
         </main>
       </div>
-
+        <Notifications />
     </div>
   )
 }
