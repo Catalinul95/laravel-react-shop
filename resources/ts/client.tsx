@@ -11,7 +11,11 @@ type client = {
 }
 
 export async function client(endpoint, {body, ...customConfig} = {} as config) {
-    const headers = {'Content-type': 'application/json'};
+    const headers = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authentication': `Bearer ${localStorage.getItem('JWT_TOKEN')}`
+    };
 
     const config = {
         method: body ? 'POST' : 'GET',
@@ -27,23 +31,29 @@ export async function client(endpoint, {body, ...customConfig} = {} as config) {
     }
 
     let data;
-    try {
-        const response = await window.fetch(endpoint, config);
-        data = await response.json();
+    const response = await window.fetch(endpoint, config);
+    data = await response.json();
 
-        if (response.ok) {
-            return {
-                status: response.status,
-                data,
-                headers: response.headers,
-                url: response.url,
-            }
+    if (response.ok) {
+        return {
+            status: response.status,
+            data,
+            headers: response.headers,
+            url: response.url,
         }
-
-        throw new Error(response.statusText);
-    } catch (err) {
-        return Promise.reject(err.message ? err.message : data);
     }
+
+    const responseError = {
+        type: 'Error',
+        message: data.message,
+        data: data?.errors ?? [],
+        status: response.status,
+    };
+
+    let error = new Error();
+    error = {...error, ...responseError};
+
+    throw (error);
 }
 
 client.get = function (endpoint, customConfig = {}) {

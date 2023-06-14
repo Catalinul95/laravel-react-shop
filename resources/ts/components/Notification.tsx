@@ -41,7 +41,11 @@ const Notification: React.FC = ({index, notification}) => {
                     {notification.type === 'warning' && <Warning className="h-7 w-7 text-orange-500"/>}
                 </div>
                 <div className="px-6">
-                    <h3 className="font-semibold text-slate-900 text-md">Action successful</h3>
+                    <h3 className="font-semibold text-slate-900 text-md">
+                        {notification.type === 'success' && <span>Action successful</span>}
+                        {notification.type === 'error' && <span>Action failed</span>}
+                        {notification.type === 'warning' && <span>Action warning</span>}
+                    </h3>
                     <p className="text-sm text-gray-700">{notification.message}</p>
                 </div>
                 <Close onClick={() => closeNotification()}

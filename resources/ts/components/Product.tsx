@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {addProductToCart} from "../store/cartSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 interface IProduct {
     title: string,
@@ -17,6 +17,7 @@ interface IProduct {
 
 const Product:React.FC = ({id, title, slug, description, image, price, created_at, updated_at, categories})  => {
     const dispatch = useDispatch();
+    const  productInCart = useSelector((state) => state.cart.products.find(item => item.id === id));
 
     const onAddProductToCart = () => {
         dispatch(addProductToCart({
@@ -57,9 +58,12 @@ const Product:React.FC = ({id, title, slug, description, image, price, created_a
                         </p>
                         <p className="mb-4 text-gray-600 text-xl 2xl:text-2xl">${(price / 100)}</p>
                         <div className="flex justify-center self-end">
-                            <button onClick={() => onAddProductToCart()} type="button" className="tracking-tight w-full p-2 px-5 outline outline-transparent border-2 border-transparent font-[400] text-gray-700 font-medium rounded-md bg-yellow-400 hover:scale-105 transition shadow-sm">
+                            {!productInCart && <button onClick={() => onAddProductToCart()} type="button" className="tracking-tight w-full p-2 px-5 outline outline-transparent border-2 border-transparent font-[400] text-gray-700 font-medium rounded-md bg-yellow-300 hover:scale-105 transition shadow-sm">
                                 Add to Cart
-                            </button>
+                            </button>}
+                            {productInCart && <Link to="" className="tracking-tight w-full p-2 px-5 inline-flex items-center justify-center outline outline-transparent border-2 border-transparent font-[400] text-white font-medium rounded-md bg-orange-400 hover:scale-105 transition shadow-sm">
+                                Go to Cart
+                            </Link>}
                         </div>
                     </div>
                 </div>
